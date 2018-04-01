@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.numero.aac_example.Injection
 import com.numero.aac_example.R
 import com.numero.aac_example.view.BusTimeListAdapter
 import com.numero.aac_example.viewmodel.BusTimeViewModel
@@ -25,7 +26,8 @@ class BusTimeListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
-        busTimeViewModel = ViewModelProviders.of(this).get(BusTimeViewModel::class.java)
+        val viewModelFactory = Injection.provideViewModelFactory()
+        busTimeViewModel = ViewModelProviders.of(this, viewModelFactory).get(BusTimeViewModel::class.java)
         busTimeViewModel.busTime.observe(this, Observer {
             val list = it ?: return@Observer
             busTimeAdapter.busTimeList = list
